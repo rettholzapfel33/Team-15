@@ -13,4 +13,9 @@ df2 = pd.read_csv('Questionnaire Data.csv', usecols=desired_features)
 # Merge Gender and Age to DF1
 df3 = pd.merge(df1, df2)
 
+# Remove time feature
+df3 = df3.drop('Time', 1)
+
+
+# Read to csv file
 df3.to_csv('Merged.csv')
