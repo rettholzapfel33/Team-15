@@ -7,7 +7,7 @@ from os import path
 
 #   Get file path   #
 basepath = path.dirname(__file__)
-filepath = path.abspath(path.join(basepath, "..", "Merged.csv"))
+filepath = path.abspath(path.join(basepath, "..", "Data", "Merged.csv"))
 
 #   Differnt CSV types  #
 file1 = open(filepath)
