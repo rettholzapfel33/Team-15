@@ -37,31 +37,34 @@ i_seen = []
 g_seen = []
 tr_seen = []
 
-for idx, data in enumerate(tasks):
+for i in tasks:
     #task conv
-    if data not in t_seen:
-        t_seen.append(idx)
-    n_task.append(t_seen.index(idx))
+    if i not in t_seen:
+        t_seen.append(i)
+    n_task.append(t_seen.index(i))
 
+for i in part_id:
     #id conv
-    if part_id[idx] not in i_seen:
-        i_seen.append(idx)
-    n_ID.append(i_seen.index(idx))
+    if i not in i_seen:
+        i_seen.append(i)
+    n_ID.append(i_seen.index(i))
 
+for i in groups:
     #group conv
-    if groups[idx] not in g_seen:
-        g_seen.append(idx)
-    n_group.append(g_seen.index(idx))
+    if i not in g_seen:
+        g_seen.append(i)
+    n_group.append(g_seen.index(i))
 
+for i in treats:
     #treatment conv
-    if treats[idx] not in tr_seen:
-        tr_seen.append(idx)
-    n_treatment.append(tr_seen.index(idx))
+    if i not in tr_seen:
+        tr_seen.append(i)
+    n_treatment.append(tr_seen.index(i))
 
 
 print("Creating new dataframe...")
-col_labels = ['instance_num','Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC','EDA_QC','BR_QC','Chest_HR_QC','Wrist_HR_QC','Age','Gender']
-num_list = np.array([num, n_ID, n_group, n_treatment, tt, n_task, pp, eda, br, chest, wrist, age, gender])
+col_labels = ['Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC','EDA_QC','BR_QC','Chest_HR_QC','Wrist_HR_QC','Age','Gender']
+num_list = np.array([n_ID, n_group, n_treatment, tt, n_task, pp, eda, br, chest, wrist, age, gender]).T
 df = pd.DataFrame(data=num_list, columns=col_labels)
 
 # Write to new file
