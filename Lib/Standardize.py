@@ -30,4 +30,4 @@ standardizedXs = scaler.transform(X.values)
 #Create csv
 sf = pd.DataFrame(standardizedXs, index = None, columns = ['Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC','EDA_QC','BR_QC','Age','Gender'])
 dX = pd.concat([sf,Y])
-dX.to_csv('../Data/stand_num_Xs.csv', header=['\'Participant_ID\'','\'Group\'','\'Treatment\'','\'Treatment_Time\'','\'Task\'','\'PP_QC\'','\'EDA_QC\'','\'BR_QC\'','\'Age\'','\'Gender\'','\'Chest_HR_QC\''], index = False)
+dX.to_csv('../Data/stand_num_Xs.csv', header=['Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC','EDA_QC','BR_QC','Age','Gender','Chest_HR_QC'], index = False)
