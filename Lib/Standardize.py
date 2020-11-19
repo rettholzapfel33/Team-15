@@ -11,16 +11,12 @@ df = pd.read_csv(filepath)
 
 # Define the parameters we want to use.
 
-features = ['Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC','EDA_QC','BR_QC','Age','Gender']
+features = ['Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC','EDA_QC','BR_QC','Age','Gender','Chest_HR_QC']
 
 # Separate our features from our targets.
-X1 = df[features]
-Y1 = df[['Chest_HR_QC']]
-
-dn = pd .concat([X1,Y1], axis=1)
-dn = dn.dropna(axis=0, how='any')
-
-X = dn[features]
+d = df[features]
+dn = d.dropna()
+X = dn[['Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC','EDA_QC','BR_QC','Age','Gender']]
 Y = dn[['Chest_HR_QC']]
 
 #Standardize the X's
@@ -29,5 +25,7 @@ standardizedXs = scaler.transform(X.values)
 
 #Create csv
 sf = pd.DataFrame(standardizedXs, index = None, columns = ['Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC','EDA_QC','BR_QC','Age','Gender'])
-dX = pd.concat([sf,Y])
-dX.to_csv('../Data/stand_num_Xs.csv', header=['Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC','EDA_QC','BR_QC','Age','Gender','Chest_HR_QC'], index = False)
+
+dX = pd.DataFrame(np.concatenate([standardizedXs,Y.values], axis=1), index = None, columns = ['Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC','EDA_QC','BR_QC','Age','Gender','Chest_HR_QC'])
+
+dX.to_csv('../Data/stand_num_Xs.csv', index = False)
