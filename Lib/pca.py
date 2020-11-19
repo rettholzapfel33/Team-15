@@ -19,9 +19,16 @@ targets_l = ['Chest_HR_QC','Wrist_HR_QC']
 X = pd.read_csv(fpath, usecols=features_l)
 Y = pd.read_csv(tpath, usecols=targets_l)
 
-#remove missing values
-X = X.dropna(axis=0, how='any')
-Y = Y.dropna(axis=0, how='any')
+# remove rows with missing values
+df_total = pd.concat([X, Y], axis=1)
+df_total = df_total.dropna(axis=0, how='any')
+
+
+# separate back into features and targets
+s_f = df_total[features_l]
+s_t = df_total[targets_l]
+X = s_f.copy()
+Y = s_t.copy()
 
 
 
