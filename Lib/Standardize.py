@@ -17,7 +17,10 @@ features = ['Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC'
 X = df[features]
 Y = df[['Chest_HR_QC']]
 
+#Standardize the X's
 scaler = StandardScaler().fit(X.values)
 standardizedXs = scaler.transform(X.values)
+
+#Create csv
 dX = pd.DataFrame(standardizedXs, index = None, columns = ['Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC','EDA_QC','BR_QC','Age','Gender'])
 dX.to_csv('../Data/stand_num_Xs.csv', index = False)
