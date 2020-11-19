@@ -23,10 +23,10 @@ for row in reader:
 
     if row[5] == "":
         r5 = 'None'
-    if row[6] == "":
+    """ if row[6] == "":
         r6 = -1
     if row[7] == "":
-        r7 = -1
+        r7 = -1 """
 
     writer.writerow([row[0], row[1], row[2], row[3], row[4], r5, r6, r7, \
                     row[8], row[9], row[10], row[11], row[12]])
