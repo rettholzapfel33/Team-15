@@ -97,4 +97,3 @@ pl.title("Max Gradient Descent R Squared for Different Alphas")
 pl.ylabel("Gradient Descent R Squared Score")
 pl.xlabel("Training Rate")
 pl.show()
-
