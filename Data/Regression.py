@@ -56,7 +56,7 @@ for alph in alphas:
 
         #Train Models
         linReg = LinearRegression(n_jobs = -2).fit(x_train, y_train_converted)
-        gradReg = SGDRegressor(loss= 'squared_loss', alpha = 1e-5, max_iter=2500).fit(x_train, y_train_converted)
+        gradReg = SGDRegressor(loss= 'squared_loss', alpha=alph, max_iter=2500).fit(x_train, y_train_converted)
         ridgReg = Ridge().fit(x_train, y_train_converted)
         
         # Now, we run our test data through our trained models.
