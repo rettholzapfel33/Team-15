@@ -12,12 +12,14 @@ from sklearn.preprocessing import StandardScaler
 fpath = '../Data/stand_num_Xs.csv'
 tpath = '../Data/num-data.csv'
 col_names = ['Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC','EDA_QC','BR_QC','Chest_HR_QC','Wrist_HR_QC','Age','Gender']
-features_l = ['Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC','EDA_QC','BR_QC','Age','Gender']
-targets_l = ['Chest_HR_QC','Wrist_HR_QC']
+features_total = ['Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC','EDA_QC','BR_QC','Age','Gender']
+features_l = ['Participant_ID','Treatment','Treatment_Time','Task','PP_QC']
+targets_total = ['Chest_HR_QC','Wrist_HR_QC']
+targets_l = ['Chest_HR_QC']
 
 # load dataset into Pandas DataFrame
-X = pd.read_csv(fpath, usecols=features_l)
-Y = pd.read_csv(tpath, usecols=targets_l)
+X = pd.read_csv(fpath, usecols=features_total)
+Y = pd.read_csv(tpath, usecols=targets_total)
 
 # remove rows with missing values
 df_total = pd.concat([X, Y], axis=1)
@@ -36,28 +38,9 @@ Y = s_t.copy()
 pca = PCA(n_components=4)
 principalComponents = pca.fit_transform(X)
 principalDf = pd.DataFrame(data = principalComponents
-             , columns = ['principal component 1', 'principal component 2', 'principal component 3', 'principal component 4'])
+             , columns = ['pc1','pc2','pc3','pc4'])
 
-finalDf = pd.concat([principalDf, Y[['Chest_HR_QC']]], axis = 1)
-
-#Plot PCA
-""" fig = plt.figure(figsize = (8,8))
-ax = fig.add_subplot(1,1,1) 
-ax.set_xlabel('Principal Component 1', fontsize = 15)
-ax.set_ylabel('Principal Component 2', fontsize = 15)
-ax.set_title('2 component PCA', fontsize = 20)
-targets = [catergory1, category2]
-colors = ['r', 'b']
-for target, color in zip(targets,colors):
-    indicesToKeep = finalDf['Chest_HR_QC'] == target
-    ax.scatter(finalDf.loc[indicesToKeep, 'principal component 1']
-               , finalDf.loc[indicesToKeep, 'principal component 2']
-               , c = color
-               , s = 50)
-ax.legend(targets)
-ax.grid()
-plt.show() """
-###
+finalDf = pd.concat([principalDf, Y[['Chest_HR_QC']]], axis=1)
 
 
 print("How much of our variance is explained?")
