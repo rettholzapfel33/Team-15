@@ -38,7 +38,7 @@ principalComponents = pca.fit_transform(X)
 principalDf = pd.DataFrame(data = principalComponents
              , columns = ['principal component 1', 'principal component 2', 'principal component 3', 'principal component 4'])
 
-finalDf = pd.concat([principalDf, Y[targets_l]], axis = 1)
+finalDf = pd.concat([principalDf, Y[['Chest_HR_QC']]], axis = 1)
 
 #Plot PCA
 """ fig = plt.figure(figsize = (8,8))
