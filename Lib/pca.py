@@ -66,5 +66,16 @@ print(sum(pca.explained_variance_ratio_))
 print()
 print() 
 
+
 print("Which features matter most?")
 print(abs(pca.components_))
+print()
+
+#Print sum of features importance to find maximum contribution
+df = []
+i = 0
+for ele in pca.components_[0]:
+    df.append(abs(ele) + abs(pca.components_[1][i]))
+    i+=1
+print("How much does each feature contribute overall")
+print(df)

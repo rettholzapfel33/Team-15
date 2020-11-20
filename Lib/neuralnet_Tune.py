@@ -23,10 +23,10 @@ tf.compat.v1.disable_eager_execution()
 # Load the dataset
 heartRate = pd.read_csv('../Data/num-data.csv')
 
-# Sample 5,000 rows of random data
-heartRate = heartRate.sample(n=5000, axis=0)
-
 heartRate = heartRate.dropna(axis=0, how='any')
+
+# Sample 5,000 rows of random data
+heartRate = heartRate.sample(n=1000, axis=0)
 
 # Split the data into features and targets
 features = ['Treatment', 'Treatment_Time',
@@ -36,8 +36,9 @@ targets = ['Chest_HR_QC']
 heartX = heartRate[features]
 heartY = heartRate[targets]
 
-heartX = heartX.iloc[1:]
-heartY = heartY.iloc[1:]
+# Use pandas to turn heart rate into catagorical data
+heartY = pd.cut(heartY['Chest_HR_QC'], bins=[35,50,60,70,80,90,100,110,120,130,140],
+                   labels=[1,2,3,4,5,6,7,8,9,10])
 
 # Split the data into train and test data
 X_train,X_test,y_train,y_test = train_test_split(heartX,
@@ -59,10 +60,10 @@ def DynamicModel(neurons=1, activation_func='sigmoid'):
         hidden layer with a dymanic number of units, and an output layer."""
     model = Sequential()
     model.add(Dense(neurons, input_dim=7, activation=activation_func, name='layer_1'))
-    model.add(Dense(1, activation='sigmoid', name='output_layer'))
+    model.add(Dense(10, activation='sigmoid', name='output_layer'))
      
     # Don't change this!
-    model.compile(loss="mean_squared_error",
+    model.compile(loss="sparse_categorical_crossentropy",
                   optimizer="adam",
                   metrics=['accuracy'])
     return model
