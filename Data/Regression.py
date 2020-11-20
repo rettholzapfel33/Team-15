@@ -44,7 +44,7 @@ tstVals = []
 alphas = [1e-3,1e-4,1e-5,1e-6,1e-7,1e-8]
 kf = KFold(n_splits = 10)
 for alph in alphas:
-    max = -5
+    max = -30
     i = 1
     lin_pscores = []
     grad_pscores = []
