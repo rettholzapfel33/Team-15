@@ -1,3 +1,4 @@
+from pandas.core.reshape.merge import merge
 from sklearn import datasets
 import numpy as np
 import pandas as pd
@@ -36,10 +37,8 @@ heartX = heartRate[features]
 heartY = heartRate[targets]
 
 # Use pandas to turn heart rate into catagorical data
-heartY = pd.cut(heartY.Chest_HR_QC, bins=[35,50,60,70,80,90,100,110,120,130,140],
+heartY = pd.cut(heartY['Chest_HR_QC'], bins=[35,50,60,70,80,90,100,110,120,130,140],
                    labels=[1,2,3,4,5,6,7,8,9,10])
-encoder = LabelBinarizer() 
-heartY = encoder.fit_transform(heartY)
 
 # Split the data into train and test data
 X_train,X_test,y_train,y_test = train_test_split(heartX,
@@ -54,16 +53,16 @@ X_train = pd.DataFrame(scaler.fit_transform(X_train),
 X_test = pd.DataFrame(scaler.transform(X_test),
                            columns=X_test.columns,
                            index=X_test.index)
- 
-# Build Keras Model 1
+
+# Build Keras Model 1 based on tuning
 def BaselineModel():
     model = Sequential()
-    model.add(Dense(7, input_dim=7, activation='linear', name='layer_1'))
-    model.add(Dense(10, activation='linear', name='layer_2'))
-    model.add(Dense(9, activation='sigmoid', name='output_layer'))
+    model.add(Dense(7, input_dim=7, activation='relu', name='layer_1'))
+    model.add(Dense(30, activation='relu', name='layer_2'))
+    model.add(Dense(10, activation='sigmoid', name='output_layer'))
      
     # Don't change this!
-    model.compile(loss="categorical_crossentropy",
+    model.compile(loss="sparse_categorical_crossentropy",
                   optimizer="adam",
                   metrics=['accuracy'])
     return model
@@ -71,13 +70,13 @@ def BaselineModel():
 # Keras Model 2
 def AlternativeModel1():
     model = Sequential()
-    model.add(Dense(7, input_dim=7, activation='linear', name='layer_1'))
+    model.add(Dense(7, input_dim=7, activation='relu', name='layer_1'))
     model.add(Dense(10, activation='sigmoid', name='layer_2'))
     model.add(Dense(5, activation='sigmoid', name='layer_3'))
-    model.add(Dense(9, activation='sigmoid', name='output_layer'))
+    model.add(Dense(10, activation='sigmoid', name='output_layer'))
     
     # Don't change this!
-    model.compile(loss="categorical_crossentropy",
+    model.compile(loss="sparse_categorical_crossentropy",
                   optimizer="adam",
                   metrics=['accuracy'])
     return model
@@ -88,7 +87,7 @@ def AlternativeModel1():
 # - - Model 1 - - 
 estimator = KerasClassifier(
         build_fn=BaselineModel,
-        epochs=100, batch_size=20,
+        epochs=200, batch_size=20,
         verbose=0)
 kfold = KFold(n_splits=5, shuffle=True)
 print("- - - - - - - - - - - - - ")
@@ -99,7 +98,7 @@ for i in range(0,10):
 # - - Model 2 - - 
 estimator = KerasClassifier(
         build_fn=AlternativeModel1,
-        epochs=20, batch_size=20,
+        epochs=200, batch_size=20,
         verbose=0)
 kfold = KFold(n_splits=5, shuffle=True)
 print("- - - - - - - - - - - - - ")
