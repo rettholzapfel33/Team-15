@@ -13,8 +13,9 @@ fpath = '../Data/stand_num_Xs.csv'
 tpath = '../Data/num-data.csv'
 col_names = ['Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC','EDA_QC','BR_QC','Chest_HR_QC','Wrist_HR_QC','Age','Gender']
 features_total = ['Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC','EDA_QC','BR_QC','Age','Gender']
-features_l = ['Participant_ID','Treatment','Treatment_Time','Task','PP_QC']
 targets_total = ['Chest_HR_QC','Wrist_HR_QC']
+features_l = ['Participant_ID','Treatment','Treatment_Time','Task','PP_QC']
+#features_l = ['Participant_ID','Group','Treatment','Treatment_Time','Task','PP_QC','EDA_QC','BR_QC','Age','Gender']
 targets_l = ['Chest_HR_QC']
 
 # load dataset into Pandas DataFrame
@@ -31,7 +32,6 @@ s_f = df_total[features_l]
 s_t = df_total[targets_l]
 X = s_f.copy()
 Y = s_t.copy()
-
 
 
 # run pca
