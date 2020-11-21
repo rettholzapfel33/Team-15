@@ -14,8 +14,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.preprocessing import MinMaxScaler
 
-
-
+#   File management #
 basepath = path.dirname(__file__)
 filepath = path.abspath(path.join(basepath, "..", "Data", "num-data.csv"))
 data = pd.read_csv(filepath)
@@ -23,7 +22,6 @@ data = pd.read_csv(filepath)
 #   Loop through and if no chest_HR then match it to Wrist HR   #
 data = data.dropna(axis=0, how='any')
 scaler = MinMaxScaler(feature_range=(-1, 1))
-
 
 #   Clear away uncessary columns #
 data = data.loc[:, ~data.columns.str.contains('^Unnamed')]
@@ -33,7 +31,7 @@ data = data.drop('EDA_QC', axis=1)
 data = data.drop('BR_QC', axis=1)
 data = data.drop('Wrist_HR_QC', axis=1)
 
-
+#   This was used to remove various features for testing    #
 #data = data.drop('Group', axis=1)
 #data = data.drop('Task', axis=1)
 #data = data.drop('Treatment', axis=1)
@@ -45,23 +43,18 @@ data = data.drop('Wrist_HR_QC', axis=1)
 X = data.drop('Chest_HR_QC', axis=1)
 X = scaler.fit_transform(X)
 Y = data['Chest_HR_QC']
-
-score_list = []
 x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.2)
 
-for x in range(1, 20):
-
-    #   My ML model #
-    regr_1 = DecisionTreeRegressor(max_depth=x)
-    regr_1.fit(x_train, y_train)
-    pred = regr_1.predict(x_test)
-    score = regr_1.score(x_test, y_test)
-    score_list.append(score)
+#   My ML model #
+regr_1 = DecisionTreeRegressor(max_depth=9)
+regr_1.fit(x_train, y_train)
+pred = regr_1.predict(x_test)
+score = regr_1.score(x_test, y_test)
+print(score)
 
 
-
-count = np.arange(start=1, stop=20)
 '''
+count = np.arange(start=1, stop=20)
 pl.plot(count, score_list)
 pl.title("R2 values with tree depth")
 pl.ylabel("R2 score")
